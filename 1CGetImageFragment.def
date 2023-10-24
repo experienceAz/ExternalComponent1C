@@ -1,0 +1,6 @@
+LIBRARY    "1CGetImageFragment.dll"
+
+EXPORTS
+GetClassObject
+DestroyObject
+GetClassNames

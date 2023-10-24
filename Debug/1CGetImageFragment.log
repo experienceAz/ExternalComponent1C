@@ -1,0 +1,10 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.Cpp.Analysis.props(24,5): warning MSB4211: The property "MsvcAnalysisPluginPath" is being set to a value for the first time, but it was already consumed at "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CodeAnalysis.Extensions.props (33,5)".
+cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  1CGetImageFragment.cpp
+cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  dllmain.cpp
+1CGetImageFragment.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+     Creating library C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\Debug\1CGetImageFragmentAddIn.lib and object C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\Debug\1CGetImageFragmentAddIn.exp
+1CGetImageFragmentAddIn.exp : warning LNK4070: /OUT:1CGetImageFragment.dll directive in .EXP differs from output filename 'C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\Debug\1CGetImageFragmentAddIn.dll'; ignoring directive
+  1CGetImageFragment.vcxproj -> C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\Debug\1CGetImageFragmentAddIn.dll
+          1 file(s) copied.
