@@ -30,17 +30,19 @@ ULONG_PTR m_gdiplusToken;
 using namespace Gdiplus;
 
 
-static wchar_t *g_PropNames[] = { L"" };
-static wchar_t *g_PropNamesRu[] = { L"" };
+static wchar_t *g_PropNames[] = { L"TestProp", L"TraceLavel", L"Port", L"IP" };
+static wchar_t *g_PropNamesRu[] = { L"“естовое—войство", L"“естовое—войство2", L"“естовое—войство3", L"“естовое—войство4" };
 
 static wchar_t *g_MethodNamesRu[] = {
                                         L"¬ерси€",
-                                        L"ѕолучить‘рагмент»зображени€"
+                                        L"ѕолучить‘рагмент»зображени€",
+                                        L"“естовыйћетод"
                                     };
                                         
 static wchar_t *g_MethodNames[] =   {
                                         L"Version", 
-                                        L"GetImageFragment"
+                                        L"GetImageFragment",
+                                        L"TestMethod"
                                     };
 
 
@@ -207,25 +209,58 @@ const WCHAR_T* C1CGetImageFragment::GetPropName(long lPropNum, long lPropAlias)
 
     return wsPropName;
 }
+
+bool C1CGetImageFragment::wstring_to_p(std::wstring str, tVariant* val) {
+    char* t1;
+    TV_VT(val) = VTYPE_PWSTR;
+    m_iMemory->AllocMemory((void**)&t1, (str.length() + 1) * sizeof(WCHAR_T));
+    memcpy(t1, str.c_str(), (str.length() + 1) * sizeof(WCHAR_T));
+    val->pstrVal = t1;
+    val->strLen = str.length();
+    return true;
+}
+
+
 //---------------------------------------------------------------------------//
-bool C1CGetImageFragment::GetPropVal(const long /*lPropNum*/, tVariant* /*pvarPropVal*/)
+bool C1CGetImageFragment::GetPropVal(const long lPropNum, tVariant* pvarPropVal)
 { 
-    return false;
+    switch (lPropNum)
+    {
+    case ePropTest:
+        TV_VT(pvarPropVal) = VTYPE_BOOL;
+        TV_BOOL(pvarPropVal) = m_boolEnabled;
+        break;
+
+    default:
+        return false;
+    }
+
+    return true;
 }
 //---------------------------------------------------------------------------//
-bool C1CGetImageFragment::SetPropVal(const long /*lPropNum*/, tVariant* /*varPropVal*/)
+bool C1CGetImageFragment::SetPropVal(const long lPropNum, tVariant* varPropVal)
 { 
-    return false;
+    switch (lPropNum)
+    {
+    case eMethTest:
+        ::convFromShortWchar(&pTestProp, TV_WSTR(varPropVal));
+        break;
+   
+    default:
+        return false;
+    }
+
+    return true;
 }
 //---------------------------------------------------------------------------//
-bool C1CGetImageFragment::IsPropReadable(const long /*lPropNum*/)
+bool C1CGetImageFragment::IsPropReadable(const long lPropNum)
 { 
-    return false;
+    return true;
 }
 //---------------------------------------------------------------------------//
-bool C1CGetImageFragment::IsPropWritable(const long /*lPropNum*/)
+bool C1CGetImageFragment::IsPropWritable(const long lPropNum)
 {
-    return false;
+    return true;
 }
 //---------------------------------------------------------------------------//
 long C1CGetImageFragment::GetNMethods()
@@ -284,28 +319,25 @@ long C1CGetImageFragment::GetNParams(const long lMethodNum)
 { 
     switch(lMethodNum)
     { 
-    case eVersion:
+    case eMethTest:
         return 0;
-    case eGetImageFragment:
-        return 7;
     default:
         return 0;
     }
-    
+       
     return 0;
 }
 //---------------------------------------------------------------------------//
 bool C1CGetImageFragment::GetParamDefValue(const long lMethodNum, const long lParamNum,
                           tVariant *pvarParamDefValue)
 { 
-    TV_VT(pvarParamDefValue)= VTYPE_EMPTY;
+    TV_VT(pvarParamDefValue) = VTYPE_EMPTY;
 
     switch(lMethodNum)
-    { 
-    case eVersion:
-    case eGetImageFragment:
-        // There are no parameter values by default 
-        break;
+    {   
+    case eMethTest:
+        return true;
+
     default:
         return false;
     }
@@ -316,25 +348,30 @@ bool C1CGetImageFragment::GetParamDefValue(const long lMethodNum, const long lPa
 bool C1CGetImageFragment::HasRetVal(const long lMethodNum)
 { 
     switch(lMethodNum)
-    { 
-    case eVersion:
-        return true;
-    case eGetImageFragment:
-        return true;
+    {    
+    case eMethTest:
+        return false;
     default:
         return false;
     }
 
     return false;
 }
+
+void C1CGetImageFragment::testMeth()
+{
+    int a = 4;
+}
+
 //---------------------------------------------------------------------------//
 bool C1CGetImageFragment::CallAsProc(const long lMethodNum,
                     tVariant* paParams, const long lSizeArray)
 { 
     switch(lMethodNum)
     {
-    case eVersion:
-    case eGetImageFragment:
+    case eMethTest:
+        testMeth();
+        return true;
         break;
 
     default:
@@ -347,90 +384,10 @@ bool C1CGetImageFragment::CallAsProc(const long lMethodNum,
 
 //---------------------------------------------------------------------------//
 bool C1CGetImageFragment::CallAsFunc(const long lMethodNum,
-                tVariant* pvarRetValue, tVariant* paParams, const long lSizeArray)
-{ 
-    switch(lMethodNum)
-    {
-        case eVersion:
-        {
-            if (pvarRetValue)
-            {
-                size_t strLen = wcslen(kComponentVersion);
-                if (m_iMemory->AllocMemory((void**)&pvarRetValue->pwstrVal, (strLen + 1) * sizeof(kComponentVersion[0])))
-                {
-                    wcscpy_s(pvarRetValue->pwstrVal, strLen + 1, kComponentVersion);                    
-                    pvarRetValue->wstrLen = strLen;
-                    TV_VT(pvarRetValue) = VTYPE_PWSTR;
-                }
-            }
-            
-            break;
-        }
-                    
-        // ѕолучить‘рагмент»зображени€(ѕуть ‘айлу»зображени€,
-        //  ѕуть ‘айлу–езультата, ѕоложение‘рагмента(„исло), —мещениеѕоX(„исло - мм), 
-        //  —мещениеѕоY(„исло - мм), Ўирина(„исло-мм), ¬ысота(„исло-мм)) 
-        case eGetImageFragment:
-        {
-            // парам 0 - строка с путем к исходной картинке
-            tVariant& pParam0 = paParams[0];
-
-            wchar_t* sourcePath = pParam0.pwstrVal;
-            uint32_t sourcePathLen = pParam0.wstrLen;
-            if (sourcePathLen == 0)
-            {
-                addError(kErrMsg_NoPicturePaths);
-                return false;   
-            }
-
-            // парам 1 - строка с путем картинки-результата
-            tVariant& pParam1 = paParams[1];
-            wchar_t* resultPath = pParam1.pwstrVal;
-            uint32_t resultPathLen = pParam1.wstrLen;
-            if (resultPathLen == 0)
-            {
-                addError(kErrMsg_NoPicturePaths);
-                return false;   
-            }
-
-            // парам 2 - ѕоложение‘рагмента
-            tVariant& pParam2 = paParams[2];
-            int fragmentPos = pParam2.intVal;
-
-            // парам 3 - —мещениеѕоX
-            tVariant& pParam3 = paParams[3];
-            int offsetX = pParam3.intVal;
-
-            // парам 4 - —мещениеѕоY
-            tVariant& pParam4 = paParams[4];
-            int offsetY = pParam4.intVal;
-
-            // парам 5 - Ўирина
-            tVariant& pParam5 = paParams[5];
-            int width = pParam5.intVal;
-
-            // парам 6 - ¬ысота
-            tVariant& pParam6 = paParams[6];
-            int height = pParam6.intVal;
-
-            // если указан угол  - то ширина и высота считаем фиксированными - 55 и 45 мм.
-
-            bool saveRet = GetImageFragment(sourcePath, resultPath, fragmentPos, 
-                offsetX, offsetY, width, height);
-
-            TV_VT(pvarRetValue) = VTYPE_BOOL;            
-            pvarRetValue->bVal = saveRet;            
-
-            break;
-        }
-
-        default:
-            return false;
-    }
-    
-    return true;
+    tVariant* pvarRetValue, tVariant* paParams, const long lSizeArray)
+{
+    return false;
 }
-
 
 //---------------------------------------------------------------------------//
 // This code will work only on the client!
@@ -644,136 +601,4 @@ std::wstring replace(std::wstring text, std::wstring s, std::wstring d)
 		index+=d.length();
 	}
 	return text;
-}
-
-const int defWidthMM  = 55; // 55 мм
-const int defHeightMM = 45; // 45 мм
-
-//---------------------------------------------------------------------------//
-bool C1CGetImageFragment::GetImageFragment(wchar_t* sourcePath, wchar_t* resultPath, int fragmentPos, 
-        int left, int top, int width, int height)
-{
-   wchar_t drive[_MAX_DRIVE];
-   wchar_t dir[_MAX_DIR];
-   wchar_t fname[_MAX_FNAME];
-   wchar_t ext[_MAX_EXT];
-    _wsplitpath_s(resultPath, drive, _MAX_DRIVE, dir, _MAX_DIR, fname, _MAX_FNAME, ext, _MAX_EXT);
-
-    FragmentPosition fragPos = (FragmentPosition)fragmentPos;
-
-    // Initialize GDI+
-    Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-    Gdiplus::GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
-
-    // Get the CLSID of the PNG encoder.
-    CLSID   encoderClsid;
-
-    if (_wcsicmp(ext, L".bmp") == 0)
-        GetEncoderClsid(L"image/bmp", &encoderClsid);
-    else if (_wcsicmp(ext, L".jpg") == 0)
-        GetEncoderClsid(L"image/jpeg", &encoderClsid);
-    else if (_wcsicmp(ext, L".gif") == 0)
-        GetEncoderClsid(L"image/gif", &encoderClsid);
-    else if (_wcsicmp(ext, L".png") == 0)
-        GetEncoderClsid(L"image/png", &encoderClsid);
-    else if (_wcsicmp(ext, L".tif") == 0)
-        GetEncoderClsid(L"image/tiff", &encoderClsid);
-
-    Bitmap bitmap(sourcePath);
-
-    int imageWidth = bitmap.GetWidth();
-    int imageHeight = bitmap.GetHeight();
-
-    REAL xDPI = bitmap.GetHorizontalResolution();
-    REAL yDPI = bitmap.GetVerticalResolution();
-
-    const REAL inchMM = 25.4f;
-
-    int defWidth  = (int)((REAL)defWidthMM  / inchMM * xDPI + 0.5f); // в пиксел€х
-    int defHeight = (int)((REAL)defHeightMM / inchMM * yDPI + 0.5f); // в пиксел€х
-
-    // если указан угол  - то ширина и высота считаем фиксированными - 45 и 25 мм.
-    switch (fragPos)
-    {
-        case eLeftTop:
-        {
-            width  = defWidth;
-            height = defHeight;
-            left = 0;
-            top = 0;
-            break;
-        }
-
-        case eLeftBottom:
-        {
-            width  = defWidth;
-            height = defHeight;
-            left = 0;
-            top = imageHeight - height;
-            break;
-        }
-
-        case eRightTop:
-        {
-            width  = defWidth;
-            height = defHeight;
-            left = imageWidth - width;
-            top = 0;
-            break;
-        }
-
-        case eRightBottom:
-        {
-            width  = defWidth;
-            height = defHeight;
-            left = imageWidth - width;
-            top = imageHeight - height;
-            break;
-        }
-
-        case ePrecisePosition:
-        {
-            left    = (int)((REAL)left  / inchMM * xDPI + 0.5f); // в пиксел€х
-            top     = (int)((REAL)top  / inchMM * xDPI + 0.5f); // в пиксел€х
-            width   = (int)((REAL)width  / inchMM * xDPI + 0.5f); // в пиксел€х
-            height  = (int)((REAL)height  / inchMM * xDPI + 0.5f); // в пиксел€х
-
-            if (left < 0)
-                left = 0;
-            if (top < 0)
-                top = 0;
-
-            if (left > imageWidth)
-                left = imageWidth;
-            if (top > imageHeight)
-                top = imageHeight;
-
-            if (width > imageWidth)
-                width = imageWidth;
-            if (height > imageHeight)
-                height = imageHeight;
-
-            if (left + width > imageWidth)
-                left = imageWidth - width;
-            if (top + height > imageHeight)
-                top = imageHeight - height;
-
-            break;
-        }
-
-        default:
-            return false;
-    }
-
-	RectF sourceRect((REAL)left, (REAL)top, (REAL)width, (REAL)height);
-    Status stat;
-
-	Bitmap* secondBitmap = bitmap.Clone(sourceRect, PixelFormatDontCare);
-    stat = secondBitmap->Save(resultPath, &encoderClsid, NULL);
-
-    delete secondBitmap;
-
-    Gdiplus::GdiplusShutdown(m_gdiplusToken);
-
-    return true;
 }

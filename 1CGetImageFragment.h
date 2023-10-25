@@ -22,14 +22,13 @@ class C1CGetImageFragment : public IComponentBase
 public:
     enum Props
     {
-        ePropLast = 0       // Always last
+        ePropTest = 0,
+        ePropLast        // Always last
     };
 
     enum Methods
     {
-        eVersion = 0,       // Версия Компоненты
-        eGetImageFragment,  // ПолучитьФрагментИзображения
-        
+        eMethTest = 0,       // Версия Компоненты
         eMethLast           // Always last
     };
 
@@ -63,17 +62,21 @@ public:
                 tVariant* pvarRetValue, tVariant* paParams, const long lSizeArray);
     // LocaleBase
     virtual void ADDIN_API SetLocale(const WCHAR_T* loc);
+
+    bool wstring_to_p(wstring str, tVariant* val);
     
 private:
     long findName(wchar_t* names[], const wchar_t* name, const uint32_t size) const;
     void addError(uint32_t wcode, const wchar_t* source, 
                     const wchar_t* descriptor, long code);
+
+    void testMeth();
     
     // добавление ошибки в Предприятие в момент вызова функции компоненты
     void addError(const wchar_t* errorText);
 
-	bool GetImageFragment(wchar_t* sourcePath, wchar_t* resultPath, int fragmentPos, 
-        int left, int top, int width, int height);
+	/*bool GetImageFragment(wchar_t* sourcePath, wchar_t* resultPath, int fragmentPos, 
+        int left, int top, int width, int height);*/
 
     // Attributes
     IAddInDefBase      *m_iConnect;
@@ -81,6 +84,8 @@ private:
 
     bool                m_boolEnabled;
     uint32_t            m_uiTimer;
+
+    wchar_t* pTestProp = 0;
 };
 
 #endif //__ADDINNATIVE_H__
