@@ -1,0 +1,6 @@
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.Cpp.Analysis.props(24,5): warning MSB4211: The property "MsvcAnalysisPluginPath" is being set to a value for the first time, but it was already consumed at "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CodeAnalysis.Extensions.props (33,5)".
+cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  stdafx.cpp
+cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  1CGetImageFragment.cpp
+C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\1CGetImageFragment.h(4,10): fatal  error C1083: Cannot open include file: 'ComponentBase.h': No such file or directory

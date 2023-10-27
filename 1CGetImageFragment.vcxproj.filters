@@ -40,6 +40,21 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddInDefBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="com.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IMemoryManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="1CGetImageFragment.rc">

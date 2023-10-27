@@ -216,8 +216,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="1CGetImageFragment.h" />
+    <ClInclude Include="AddInDefBase.h" />
+    <ClInclude Include="com.h" />
+    <ClInclude Include="ComponentBase.h" />
+    <ClInclude Include="IMemoryManager.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="types.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="1CGetImageFragment.rc" />

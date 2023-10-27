@@ -64,7 +64,7 @@
 #if !defined __linux__
     ////////////////////////////////////////////////////////////////////////////
     // sized integer types
-    typedef __int8            int8_t   ; ///< 8-bit integer
+    //typedef __int8            int8_t   ; ///< 8-bit integer
     typedef unsigned __int8   uint8_t  ; ///< 8-bit unsigned integer
 
     typedef __int16           int16_t  ; ///< 16-bit integer         
@@ -127,7 +127,7 @@ struct _tVariant
 {
     _ANONYMOUS_UNION union 
     {
-        int8_t         i8Val;
+        //int8_t         i8Val;
         int16_t        shortVal;
         int32_t        lVal;
         int            intVal;
@@ -183,7 +183,7 @@ typedef tVariant    tVariantArg;
 #define TV_ISVECTOR(X)    (TV_VT(X)&VT_VECTOR)
 #define TV_NONE(X)        TV_I2(X)
 
-#define TV_UI1(X)         TV_JOIN(X, ui8Val)
+//#define TV_UI1(X)         TV_JOIN(X, ui8Val)
 #define TV_I2(X)          TV_JOIN(X, shortVal)
 #define TV_I4(X)          TV_JOIN(X, lVal)
 #define TV_I8(X)          TV_JOIN(X, llVal)
