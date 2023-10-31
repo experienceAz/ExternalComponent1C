@@ -119,6 +119,10 @@ C1CGetImageFragment::C1CGetImageFragment()
 	pTestPropInt = 15;
 
 	pTestPropStr = "testStr";
+
+	/*pTestPropStr = new char[100];
+	std::strcpy(pTestPropStr, "abc 123");*/
+
 }
 //---------------------------------------------------------------------------//
 C1CGetImageFragment::~C1CGetImageFragment()
@@ -261,6 +265,9 @@ char* wchar_to_char(wchar_t* pwchar)
 //---------------------------------------------------------------------------//
 bool C1CGetImageFragment::GetPropVal(const long lPropNum, tVariant* pvarPropVal)
 {
+	wchar_t* wsTmp1 = 0;
+	WCHAR_T* wsTmp2 = 0;
+
 	switch (lPropNum)
 	{
 	case ePropTestBool:
@@ -272,10 +279,15 @@ bool C1CGetImageFragment::GetPropVal(const long lPropNum, tVariant* pvarPropVal)
 		TV_I4(pvarPropVal) = pTestPropInt;    //выставляем значение
 		break;
 	case ePropTestStr:
-		TV_VT(pvarPropVal) = VTYPE_PSTR;  //выставляем тип
-		pvarPropVal->pstrVal = pTestPropStr;     //сразу указатель на строку
-		//pvarPropVal->strLen = std::strlen(pTestPropStr);
+	{
+		size_t l = std::strlen(pTestPropStr) + 1;
+		pvarPropVal->vt = VTYPE_PSTR;
+		pvarPropVal->strLen = l;
+		m_iMemory->AllocMemory((void**)&pvarPropVal->pstrVal, l * sizeof(char));
+		std::memcpy(pvarPropVal->pstrVal, pTestPropStr, l * sizeof(char));
+
 		break;
+	}
 
 	default:
 		return false;
@@ -288,6 +300,12 @@ bool C1CGetImageFragment::GetPropVal(const long lPropNum, tVariant* pvarPropVal)
 //---------------------------------------------------------------------------//
 bool C1CGetImageFragment::SetPropVal(const long lPropNum, tVariant* varPropVal)
 {
+	wchar_t* wsTmp = 0;
+	int size = 0;
+	char* mbStr = 0;
+	char* name = 0;
+	size_t len = std::strlen(varPropVal->pstrVal);
+
 	switch (lPropNum)
 	{
 	case ePropTestBool:
@@ -301,16 +319,11 @@ bool C1CGetImageFragment::SetPropVal(const long lPropNum, tVariant* varPropVal)
 		pTestPropInt = TV_I4(varPropVal);
 		break;
 	case ePropTestStr:
-		if(TV_VT(varPropVal) == VTYPE_PSTR) {
-			pTestPropStr = varPropVal->pstrVal;
-			break;
-		}
-		else if (TV_VT(varPropVal) == VTYPE_PWSTR) {
-			pTestPropStr = wchar_to_char(varPropVal->pwstrVal);
-			break;
-		}
-		else
-			return false;
+		//delete[] pTestPropStr;
+		pTestPropStr = new char[len + 1];
+		std::strncpy(pTestPropStr, varPropVal->pstrVal, len + 1);
+		break;
+
 	default:
 		return false;
 	}
@@ -441,7 +454,7 @@ bool C1CGetImageFragment::CallAsProc(const long lMethodNum,
 		return false;
 	}
 
-	return false;   // as func
+	return false;   
 }
 
 
@@ -582,7 +595,7 @@ void MyTimerProc(int sig)
 		delete[] what;
 		delete[] wdata;
 		delete[] data;
-	}
+}
 }
 #endif
 //---------------------------------------------------------------------------//

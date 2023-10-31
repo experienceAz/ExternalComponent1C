@@ -90,6 +90,8 @@ private:
 
     char* pTestPropStr;
 
+    wchar_t* pTestPropWChar = 0;
+
 };
 
 #endif //__ADDINNATIVE_H__

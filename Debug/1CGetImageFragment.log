@@ -2,9 +2,9 @@
   stdafx.cpp
 cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   1CGetImageFragment.cpp
-C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\1CGetImageFragment.cpp(230,19): warning C4244: 'initializing': conversion from 'wchar_t' to 'char', possible loss of data
-C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\1CGetImageFragment.cpp(235,40): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
-C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\1CGetImageFragment.cpp(246,18): warning C4244: 'initializing': conversion from 'wchar_t' to 'char', possible loss of data
+C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\1CGetImageFragment.cpp(234,19): warning C4244: 'initializing': conversion from 'wchar_t' to 'char', possible loss of data
+C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\1CGetImageFragment.cpp(239,40): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
+C:\Users\User\Desktop\ilia\1CGetImageFragment\1CGetImageFragment\trunk\1CGetImageFragment\1CGetImageFragment.cpp(250,18): warning C4244: 'initializing': conversion from 'wchar_t' to 'char', possible loss of data
 cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   dllmain.cpp
 1CGetImageFragment.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
